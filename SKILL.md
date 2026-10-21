@@ -1,6 +1,6 @@
 ---
 name: windows-cjk-ui-font
-description: Replace the Windows 11 system UI font (Segoe UI, Segoe UI Variable, legacy MS Shell Dlg dialogs) with an open-source CJK font such as Sarasa UI (更纱黑体) or Noto Sans CJK, so Chinese/Japanese text in Explorer, Start, Settings, taskbar and dialogs matches the Latin text in size and style. Use this whenever someone reports mismatched, too-small or mixed thin/bold Chinese characters in Windows, wants to change or customize the Windows system font, wants a "PingFang-like" look on Windows, asks why fonts reverted after a Windows update, or wants to undo such a change, even if Segoe UI is never mentioned.
+description: Replace the Windows 11 system UI font (Segoe UI, Segoe UI Variable, legacy MS Shell Dlg dialogs) with an open-source CJK font such as Sarasa UI (更纱黑体) or Noto Sans CJK, so Chinese/Japanese text in Explorer, Start, Settings, taskbar and dialogs matches the Latin text in size and style. Use this whenever someone reports mismatched, too-small or mixed thin/bold Chinese characters in Windows, wants to change or customize the Windows system font, asks why fonts reverted after a Windows update, or wants to undo such a change, even if Segoe UI is never mentioned.
 ---
 
 # Windows CJK UI font replacement
@@ -12,8 +12,7 @@ Microsoft's font files are never overwritten. Renamed copies are added under new
 ## Guidelines
 
 - **Scripts that write HKLM, `C:\Windows\Fonts`, `C:\ProgramData` or the Task Scheduler are run by the person who owns the machine**, in an elevated PowerShell. The agent prepares them and may run read-only checks, approved downloads and font generation in user-writable folders.
-- **Only open-licensed fonts are renamed.** OFL fonts (Sarasa Gothic, Noto/Source Han Sans) permit modification and require modified versions to be renamed. Proprietary fonts (PingFang, Microsoft fonts and similar) are not patched to impersonate Segoe UI; suggest the visually closest OFL alternative.
-- **Verify what was downloaded.** Check the internal family name and compare hashes with installed fonts before trusting file names; font files are sometimes renamed copies of other fonts.
+- **Source fonts must permit modification.** OFL fonts (Sarasa Gothic, Noto/Source Han Sans) do, and require modified versions to be renamed, which the scripts do. Sarasa UI TC (unhinted, 1.0.42) is bundled in `fonts/` with its license in `fonts/OFL.txt`.
 - **Installed fonts that belong to the machine owner are left alone** unless removal is explicitly requested.
 - **State the exact file, source and size before downloading** and wait for approval.
 - **Stage files outside Downloads** (often cleaned automatically) and outside OneDrive-redirected Documents, e.g. `C:\Users\<name>\Documents\SegoeUI-Sarasa` (check `[Environment]::GetFolderPath('MyDocuments')`). Tell the owner the full path.
