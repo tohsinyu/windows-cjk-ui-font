@@ -31,19 +31,18 @@ Undo is a registry change: `restore.ps1` removes the startup task and restores t
 
 - Windows 11 (tested on a 26xxx release build and a 29xxx Insider Dev build).
 - Python 3.9+ with [fontTools](https://github.com/fonttools/fonttools) (`pip install --user fonttools`) to generate the fonts.
-- An open-licensed source font that permits modification, e.g. SIL OFL fonts such as Sarasa Gothic or Noto Sans CJK. The OFL requires modified versions to be renamed, which is exactly what this does.
+- A source font whose license permits modification, e.g. SIL OFL fonts such as Sarasa Gothic or Noto Sans CJK. Sarasa UI TC is included in `fonts/`. The OFL requires modified versions to be renamed, which is what the scripts do.
 - An elevated PowerShell for the install and restore scripts.
-
-No font files are included in this repository. Download the source font from its official releases.
 
 ## Usage
 
 ```powershell
-# 1. Get the font (example: Sarasa UI TC, unhinted build for high-DPI screens) and extract it to <src>.
-#    https://github.com/be5invis/Sarasa-Gothic/releases  ->  SarasaUiTC-TTF-Unhinted-<version>.7z
+# 1. Source font: use the bundled fonts/ folder (Sarasa UI TC, unhinted build for high-DPI screens),
+#    or download another variant (SC, HC, J, hinted...) from
+#    https://github.com/be5invis/Sarasa-Gothic/releases and extract it to <src>.
 
 # 2. Generate the rebuilds (use -P -E, not -I, so user site-packages with fontTools stay visible).
-python -P -E scripts/make_segoe.py <src> <stage> --pattern "SarasaUiTC-{style}.ttf" --tag "Sarasa-UI-TC-<version>"
+python -P -E scripts/make_segoe.py fonts <stage> --pattern "SarasaUiTC-{style}.ttf" --tag "Sarasa-UI-TC-1.0.42"
 python -P -E scripts/make_segoevar.py <stage> <stage>\variable
 
 # 3. Verify naming, weights, style bits and CJK coverage.
@@ -81,9 +80,9 @@ Known trade-offs: optical sizing of Segoe UI Variable is lost (Small, Text and D
 ## Licensing and fonts
 
 - The code in this repository is MIT licensed.
-- Fonts are third-party works under their own licenses. Only rebuild fonts whose license permits modification and redistribution of modified versions. Proprietary fonts (for example Apple's PingFang or Microsoft's own fonts) must not be patched to impersonate system fonts, and this project does not support doing so.
-- Check what you downloaded: confirm the internal family name and compare file hashes against installed fonts instead of trusting file names.
-- This project is not affiliated with Microsoft or the authors of any font used with it.
+- The font files in `fonts/` are **Sarasa UI TC (更纱黑体 UI, Traditional Chinese Taiwan, unhinted build), version 1.0.42**, taken unmodified from the official [Sarasa Gothic releases](https://github.com/be5invis/Sarasa-Gothic/releases). They are licensed under the SIL Open Font License 1.1; the license text is in `fonts/OFL.txt`. Sarasa Gothic is © its authors (see the upstream repository).
+- The generated Segoe UI / Segoe UI Variable rebuilds are produced locally by the scripts and are not distributed here.
+- This project is not affiliated with Microsoft or the authors of Sarasa Gothic.
 
 ## Safety
 
@@ -99,7 +98,7 @@ These scripts write to `HKLM`, `C:\Windows\Fonts` and the Task Scheduler. Read t
 
 **做法**：不改动、不删除微软的字体文件。脚本把开源字体按 Windows 查找的名字重新生成（12 个 Segoe UI 字重，加 20 个 Segoe UI Variable 静态替身），复制到 `C:\Windows\Fonts`，再改注册表指向它们；老式对话框字体 `MS Shell Dlg` 也指向 Segoe UI；并注册开机任务，在系统大版本更新重置注册表后自动改回。撤销只需运行 `restore.ps1` 并重启。
 
-**用法**：见上方 Usage。字体文件不在仓库里，请从更纱黑体官方发布页下载；高分屏建议选 `Unhinted` 版本。
+**用法**：见上方 Usage。仓库的 `fonts/` 目录自带更纱黑体 UI TC（台湾繁体字形，Unhinted 版，v1.0.42，未经修改，采用 SIL OFL 1.1 许可证，许可证全文见 `fonts/OFL.txt`）；想用简体、港式或日文字形，可到更纱黑体官方发布页下载其他版本。高分屏建议选 `Unhinted` 版本。
 
 **不会改变的**：按名字指定字体的软件（微软雅黑 UI、等线、宋体，包括很多国产软件和 Office 文档默认字体）、网页（由 CSS 决定）、Emoji 与图标字体、终端等宽字体。
 
