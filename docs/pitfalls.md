@@ -26,9 +26,6 @@ The Segoe UI FontLink value had been overwritten with one junk string such as `@
 
 ## Font files
 
-**Files presented as an open-source font are actually another font renamed.**
-Check the internal family name (`System.Drawing.Text.PrivateFontCollection` or fontTools) and compare `Get-FileHash` against installed fonts. For reference, Sarasa Gothic ships as `.ttf`/`.ttc` and has no Ultralight or Thin weights.
-
 **"Font in use" when uninstalling.**
 The font is referenced by the current UI. Revert the registry, restart, then uninstall.
 
